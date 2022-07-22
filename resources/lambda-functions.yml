@@ -1,0 +1,13 @@
+person-store:
+  handler: src/person/storePerson.handler
+  events:
+    - http:
+        method: post
+        path: person/store
+        cors: true
+person-search:
+  handler: src/person/searchPerson.handler
+  events:
+    - http:
+        path: person/search
+        method: post

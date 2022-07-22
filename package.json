@@ -1,0 +1,107 @@
+{
+  "name": "sls-ts-aws",
+  "version": "1.0.0",
+  "description": "Serverless backend",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:api": "jest -c jest.config.api.js --runInBand",
+    "check-types": "tsc --project tsconfig.json --noEmit",
+    "check-velocity": "node validate-velocity.js",
+    "lint": "tslint --project tsconfig.json --format verbose",
+    "format": "prettier --write '**/*.{ts,js}' && prettier --no-config --write '**/*.{yml,graphql}'",
+    "lint-schema": "npm run lint-api-schema",
+    "lint-api-schema": "graphql-schema-linter api/*.graphql",
+    "lint-yaml": "find . -name '*.yml' -a ! -path './node_modules/*' | xargs bin/lint-yaml",
+    "lint-commit": "commitlint -e",
+    "deploy:backend": "sls deploy",
+    "deploy:database": "cd database; sls deploy",
+    "deploy:api": "cd api; sls deploy",
+    "build:backend": "sls package",
+    "build:database": "cd database; sls package",
+    "build:api": "cd api; sls package"
+  },
+  "dependencies": {
+    "@aws/dynamodb-query-iterator": "0.7.1",
+    "@middy/core": "^3.1.0",
+    "@middy/http-cors": "^3.1.0",
+    "@middy/http-json-body-parser": "^3.1.0",
+    "axios": "0.19.2",
+    "http-aws-es": "6.0.0",
+    "source-map-support": "0.5.12",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "7.5.2",
+    "@jest/test-sequencer": "24.7.1",
+    "@redux-offline/redux-offline": "2.5.1",
+    "@types/aws-lambda": "^8.10.7",
+    "@types/dotenv": "6.1.1",
+    "@types/faker": "4.1.5",
+    "@types/graphql": "14.0.0",
+    "@types/http-aws-es": "6.0.0",
+    "@types/jest": "23.3.1",
+    "@types/jest-json-schema": "1.2.0",
+    "@types/lodash": "^4.14.116",
+    "@types/node": "10.3.5",
+    "@types/node-fetch": "2.1.2",
+    "@types/uuid": "^8.3.4",
+    "ajv": "6.5.4",
+    "amazon-cognito-identity-js": "4.2.2",
+    "aws-appsync": "3.0.3",
+    "aws-lambda": "^1.0.5",
+    "aws-sdk": "2.648.0",
+    "aws-sdk-mock": "5.1.0",
+    "dotenv": "8.0.0",
+    "faker": "4.1.0",
+    "forwarded": "0.1.2",
+    "glob": "7.1.3",
+    "graphql-schema-linter": "0.1.6",
+    "graphql-tag": "2.9.2",
+    "husky": "2.1.0",
+    "jest": "24.7.1",
+    "jest-cli": "24.7.1",
+    "jest-json-schema": "2.0.2",
+    "js-yaml": "3.13.0",
+    "lint-staged": "8.1.5",
+    "node-fetch": "2.2.0",
+    "nyc": "13.3.0",
+    "parse-json": "4.0.0",
+    "prettier": "1.17.0",
+    "serverless": "3.21.0",
+    "serverless-deployment-bucket": "1.6.0",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^9.0.0",
+    "serverless-webpack": "5.3.0",
+    "ts-jest": "24.0.2",
+    "ts-loader": "5.4.5",
+    "tslint": "5.16.0",
+    "tslint-config-prettier": "1.18.0",
+    "typescript": "3.4.5",
+    "velocityjs": "2.0.0",
+    "webpack": "4.30.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "*.ts": [
+        "tslint --project . --format verbose --fix",
+        "prettier --write",
+        "git add"
+      ],
+      "*.yml": [
+        "prettier --no-config --write",
+        "bin/lint-yaml",
+        "git add"
+      ]
+    }
+  }
+}
