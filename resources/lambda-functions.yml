@@ -1,13 +1,18 @@
 person-store:
-  handler: src/person/storePerson.handler
+  role: LambdaServiceRole
+  handler: src/person/StorePerson.handler
   events:
-    - http:
+    - https:
         method: post
         path: person/store
-        cors: true
+  environment:
+    PERSONS_TABLE: Persons-${self:provider.stage}
 person-search:
-  handler: src/person/searchPerson.handler
+  role: LambdaServiceRole
+  handler: src/person/SearchPerson.handler
   events:
-    - http:
+    - https:
         path: person/search
-        method: post
+        method: get
+  environment:
+    PERSONS_TABLE: Persons-${self:provider.stage}

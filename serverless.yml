@@ -2,8 +2,14 @@ service: aws-serverless-api
 
 plugins:
   - serverless-webpack
-  - serverless-dynamodb-local
-  - serverless-offline
+  - serverless-deployment-bucket
+#  - serverless-dynamodb-local
+#  - serverless-offline
+
+package:
+  individually: true
+  patterns:
+    - '!./**'
 
 functions: ${file(resources/lambda-functions.yml)}
 
@@ -11,11 +17,18 @@ functions: ${file(resources/lambda-functions.yml)}
 resources: ${file(resources/resources.yml)}
 
 custom:
+  name: lambda-${self:provider.stage}
   webpack:
     webpackConfig: ./webpack.config.js
-    includeModules: true
+    includeModules:
+      packagePath: './package.json'
+      forceInclude:
+        - source-map-support
+      forceExclude:
+        - aws-sdk
   serverless-offline:
     httpPort: 3003
+  region: ${self:provider.region}
   dynamodb:
     start:
       port: 8000
@@ -28,48 +41,6 @@ provider:
   name: aws
   runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'us-east-2'}
+  region: us-east-1
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-    PERSONS_TABLE: Persons-dev
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:DescribeTable
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PERSONS_TABLE}"
-
-#functions:
-#  person-store:
-#    handler: src/person/storePerson.handler
-#    events:
-#      - http:
-#          method: post
-#          path: person/store
-#          cors: true
-#  person-show:
-#    handler: src/person/showPerson.handler
-#    events:
-#      - http:
-#          path: person/show
-#          method: get
-#
-#resources:
-#  Resources:
-#    PersonsListTable:
-#      Type: AWS::DynamoDB::Table
-#      Properties:
-#        TableName: Persons-dev
-#        AttributeDefinitions:
-#          - AttributeName: id
-#            AttributeType: S
-#        KeySchema:
-#          - AttributeName: id
-#            KeyType: HASH
-#        ProvisionedThroughput:
-#          ReadCapacityUnits: 1
-#          WriteCapacityUnits: 1

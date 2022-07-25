@@ -1,4 +1,4 @@
-service: ${self:custom.serviceName}-db
+service: ${self:custom.serviceName}
 
 frameworkVersion: ">3.0.0"
 
@@ -8,8 +8,6 @@ provider:
   runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
   region: "${file(../serverless.yml):provider.region}"
-  memorySize: ${self:custom.env.lambdaMemorySize.${self:provider.stage}, self:custom.env.lambdaMemorySize.default} # optional, in MB, default is 1024
-  timeout: ${self:custom.env.lambdaTimeout.${self:provider.stage}, self:custom.env.lambdaTimeout.default} # optional, in seconds, default is 6
   versionFunctions: false
   logRetentionInDays: 14 # Set the default RetentionInDays for a CloudWatch LogGroup
   deploymentBucket:
@@ -22,11 +20,7 @@ plugins:
   - serverless-deployment-bucket
 
 custom:
-  env:
-    lambdaMemorySize: "${file(../serverless.yml):custom.env.lambdaMemorySize}"
-    lambdaTimeout: "${file(../serverless.yml):custom.env.lambdaTimeout}"
   name: "${self:service}-${self:provider.stage}"
-  # `Trying to populate non string value into a string for variable` if i get region from self:provider.region
   region: "${file(../serverless.yml):custom.region}"
   accountId: ${aws:accountId}
-  serviceName: "${file(../serverless.yml):custom.serviceName}"
+  serviceName: database

@@ -31,21 +31,6 @@ Resources:
                   - "cloudformation:*"
                 Resource:
                   - "*"
-              - Effect: "Allow"
-                Action:
-                  - "s3:GetObject"
-                Resource:
-                  - {
-                      "Fn::Join":
-                        [
-                          "",
-                          [
-                            "arn:aws:s3:::",
-                            { "Ref": "UserProfileImagesBucket" },
-                            "/*",
-                          ],
-                        ],
-                    }
               - Effect: Allow
                 Action:
                   - es:ESHttpPost

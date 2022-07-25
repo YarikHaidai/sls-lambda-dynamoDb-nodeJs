@@ -1,7 +1,7 @@
 # add role to lambda for work with db
-#- ${file(resources/lambda-service-role.yml)}
+- ${file(resources/lambda-service-role.yml)}
 
 # Export api gateway base url
 #- ${file(resources/base-url-export.yml)}
 #- ${file(resources/apiGateway-export.yml)}
-- ${file(resources/db.yml)}
+#- ${file(resources/db.yml)}

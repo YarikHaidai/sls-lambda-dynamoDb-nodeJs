@@ -1,21 +1,20 @@
 Resources:
-  UserProfilesTable:
-    Type: "AWS::DynamoDB::Table"
-    # DeletionPolicy: Retain
+  PersonsTable:
+    Type: AWS::DynamoDB::Table
     Properties:
-      TableName: "${self:custom.name}-user-profiles"
+      TableName: Persons-${self:provider.stage}
       KeySchema:
-        - AttributeName: id
+        - AttributeName: personId
           KeyType: HASH
       AttributeDefinitions:
-        - AttributeName: id
+        - AttributeName: personId
           AttributeType: S
       BillingMode: PAY_PER_REQUEST
 # Export table name
 Outputs:
-  UserProfilesTableName:
+  PersonsTableName:
     Description: Name of the DynamoDB table
     Value:
-      Ref: UserProfilesTable
+      Ref: PersonsTable
     Export:
-      Name: "UserProfilesTableName-${self:custom.name}"
+      Name: "PersonsTableName-${self:custom.name}"
