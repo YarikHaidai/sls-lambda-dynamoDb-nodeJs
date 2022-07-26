@@ -3,8 +3,8 @@ service: aws-serverless-api
 plugins:
   - serverless-webpack
   - serverless-deployment-bucket
-#  - serverless-dynamodb-local
-#  - serverless-offline
+  - serverless-dynamodb-local
+  - serverless-offline
 
 package:
   individually: true

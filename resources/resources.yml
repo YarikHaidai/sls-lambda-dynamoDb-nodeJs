@@ -4,4 +4,3 @@
 # Export api gateway base url
 #- ${file(resources/base-url-export.yml)}
 #- ${file(resources/apiGateway-export.yml)}
-#- ${file(resources/db.yml)}

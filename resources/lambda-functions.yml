@@ -2,7 +2,7 @@ person-store:
   role: LambdaServiceRole
   handler: src/person/StorePerson.handler
   events:
-    - https:
+    - http:
         method: post
         path: person/store
   environment:
@@ -11,7 +11,7 @@ person-search:
   role: LambdaServiceRole
   handler: src/person/SearchPerson.handler
   events:
-    - https:
+    - http:
         path: person/search
         method: get
   environment:

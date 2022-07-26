@@ -18,5 +18,9 @@ export const handler: Handler = async (
   const surname = event.queryStringParameters.surname;
 
   const persons = await personService.searchPerson({name, surname});
+  if (!persons.length) {
+    return requestFail({message: 'Not found'}, 404);
+  }
+
   return requestSuccess(persons);
 };
