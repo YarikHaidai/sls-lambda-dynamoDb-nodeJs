@@ -10,6 +10,7 @@ Resources:
         - AttributeName: personId
           AttributeType: S
       BillingMode: PAY_PER_REQUEST
+      # TODO: add indexes to query
 # Export table name
 Outputs:
   PersonsTableName:

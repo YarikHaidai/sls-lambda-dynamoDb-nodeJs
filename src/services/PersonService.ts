@@ -51,6 +51,7 @@ class PersonService {
   }
 
   public async searchPerson(params: SearchPersonRequest): Promise<Person[]> {
+    // TODO: scan change to query, because it's a costly operation.
     const response = await this.docClient
       .scan({
         TableName: this.tableName,
